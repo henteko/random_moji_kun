@@ -30,7 +30,7 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
   };
 
   useEffect(() => {
-    const currentPrefix = searchParams.get('prefix') || '';
+    const currentPrefix = searchParams.get('prefix') || 'default';
     const currentLength = searchParams.get('length') || '4';
     if (currentPrefix !== prefix || currentLength !== length.toString()) {
       window.history.pushState({}, '', `${window.location.pathname}?prefix=${prefix}&length=${length}`);
@@ -74,7 +74,7 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
 
 const Sub: React.FC = () => {
   const searchParams = useSearchParams();
-  const prefix = searchParams.get('prefix') as string || '';
+  const prefix = searchParams.get('prefix') as string || 'default';
   const length = searchParams.get('length') as string || '4';
 
   return (
