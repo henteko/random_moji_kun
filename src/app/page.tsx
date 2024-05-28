@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, {useState, useEffect, ChangeEvent, Suspense} from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface RandomStringGeneratorProps {
@@ -67,15 +67,23 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
   );
 };
 
-export default function Home() {
+const Sub: React.FC = () => {
   const searchParams = useSearchParams();
-  const prefix = searchParams.get('prefix') as string;
-  const length = searchParams.get('length') as string;
+  const prefix = searchParams.get('prefix') as string || '';
+  const length = searchParams.get('length') as string || '4';
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-6">
       <h1 className="text-5xl font-extrabold text-blue-600 mb-10">Random Moji Kun</h1>
       <RandomStringGenerator defaultPrefix={prefix} defaultLength={parseInt(length)}/>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense>
+      <Sub />
+    </Suspense>
   );
 }
