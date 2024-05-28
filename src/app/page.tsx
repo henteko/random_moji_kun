@@ -29,7 +29,7 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
   };
 
   useEffect(() => {
-    router.push('/?prefix=' + prefix + '&length=' + length.toString());
+    router.push('/?prefix=' + prefix + '&length=' + length.toString(), undefined, { shallow: true });
   }, [prefix, length, router]);
 
   return (
