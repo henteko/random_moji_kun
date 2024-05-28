@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, ChangeEvent } from "react";
-import {useRouter, useSearchParams} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface RandomStringGeneratorProps {
   defaultPrefix?: string;
@@ -33,34 +33,49 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
   }, [prefix, length, router]);
 
   return (
-    <div>
-      <div>
-        <label>
+    <div className="p-6 bg-white shadow-lg rounded-lg">
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
           Prefix:
-          <input type="text" value={prefix} onChange={(e) => setPrefix(e.target.value)} />
         </label>
+        <input
+          type="text"
+          value={prefix}
+          onChange={(e) => setPrefix(e.target.value)}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
       </div>
-      <div>
-        <label>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
           Length:
-          <input type="number" value={length} onChange={(e) => setLength(parseInt(e.target.value, 10))} />
         </label>
+        <input
+          type="number"
+          value={length}
+          onChange={(e) => setLength(parseInt(e.target.value, 10))}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
       </div>
-      <button onClick={handleClick}>ランダム文字生成</button>
-      <p>{randomString}</p>
+      <button
+        onClick={handleClick}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        Generate!
+      </button>
+      <p className="mt-4 text-gray-700 text-lg">{randomString}</p>
     </div>
   );
 };
 
-
 export default function Home() {
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
   const prefix = searchParams.get('prefix') as string;
   const length = searchParams.get('length') as string;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <RandomStringGenerator defaultPrefix={prefix} defaultLength={parseInt(length)} />
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-6">
+      <h1 className="text-5xl font-extrabold text-blue-600 mb-10">Random Moji Kun</h1>
+      <RandomStringGenerator defaultPrefix={prefix} defaultLength={parseInt(length)}/>
     </main>
   );
 }
