@@ -1,11 +1,18 @@
 'use client'
 
-import {useState} from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
+import {useRouter, useSearchParams} from "next/navigation";
 
-const RandomStringGenerator: React.FC = () => {
+interface RandomStringGeneratorProps {
+  defaultPrefix?: string;
+  defaultLength?: number;
+}
+
+const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPrefix = '', defaultLength = 10 }) => {
   const [randomString, setRandomString] = useState<string>('');
-  const [prefix, setPrefix] = useState<string>('');
-  const [length, setLength] = useState<number>(10);
+  const [prefix, setPrefix] = useState<string>(defaultPrefix);
+  const [length, setLength] = useState<number>(defaultLength);
+  const router = useRouter();
 
   const generateRandomString = (prefix: string, length: number): string => {
     const characters = '0123456789';
@@ -20,6 +27,10 @@ const RandomStringGenerator: React.FC = () => {
     const newRandomString = generateRandomString(prefix, length);
     setRandomString(newRandomString);
   };
+
+  useEffect(() => {
+    router.push('/?prefix=' + prefix + '&length=' + length.toString());
+  }, [prefix, length, router]);
 
   return (
     <div>
@@ -43,9 +54,13 @@ const RandomStringGenerator: React.FC = () => {
 
 
 export default function Home() {
+  const searchParams = useSearchParams()
+  const prefix = searchParams.get('prefix') as string;
+  const length = searchParams.get('length') as string;
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <RandomStringGenerator />
+      <RandomStringGenerator defaultPrefix={prefix} defaultLength={parseInt(length)} />
     </main>
   );
 }
