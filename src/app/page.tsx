@@ -30,10 +30,17 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
   };
 
   useEffect(() => {
-    const currentPrefix = searchParams.get('prefix') || 'default';
+    const currentPrefix = searchParams.get('prefix') || '';
     const currentLength = searchParams.get('length') || '4';
     if (currentPrefix !== prefix || currentLength !== length.toString()) {
-      window.history.pushState({}, '', `${window.location.pathname}?prefix=${prefix}&length=${length}`);
+
+      const url = new URL(window.location.toString());
+      url.searchParams.delete("prefix");
+      url.searchParams.delete("length");
+
+      url.searchParams.append("prefix", prefix);
+      url.searchParams.append("length", length.toString());
+      window.history.pushState({}, "", url);
     }
   }, [prefix, length, router, searchParams]);
 
@@ -74,7 +81,7 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
 
 const Sub: React.FC = () => {
   const searchParams = useSearchParams();
-  const prefix = searchParams.get('prefix') as string || 'default';
+  const prefix = searchParams.get('prefix') as string || '';
   const length = searchParams.get('length') as string || '4';
 
   return (
