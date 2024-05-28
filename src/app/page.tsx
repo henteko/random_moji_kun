@@ -12,7 +12,6 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
   const [randomString, setRandomString] = useState<string>('');
   const [prefix, setPrefix] = useState<string>(defaultPrefix);
   const [length, setLength] = useState<number>(defaultLength);
-  const searchParams = useSearchParams();
   const router = useRouter();
 
   const generateRandomString = (prefix: string, length: number): string => {
@@ -26,16 +25,9 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
 
   const handleClick = () => {
     const newRandomString = generateRandomString(prefix, length);
+    router.push(`/?prefix=${prefix}&length=${length}`);
     setRandomString(newRandomString);
   };
-
-  useEffect(() => {
-    const currentPrefix = searchParams.get('prefix') || '';
-    const currentLength = searchParams.get('length') || '4';
-    if (currentPrefix !== prefix || currentLength !== length.toString()) {
-      router.push(`/?prefix=${prefix}&length=${length}`);
-    }
-  }, [prefix, length, router, searchParams]);
 
   return (
     <div className="p-6 bg-white shadow-lg rounded-lg">
