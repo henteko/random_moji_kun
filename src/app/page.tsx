@@ -28,9 +28,9 @@ const RandomStringGenerator: React.FC<RandomStringGeneratorProps> = ({ defaultPr
     setRandomString(newRandomString);
   };
 
-  // useEffect(() => {
-  //   router.push('/?prefix=' + prefix + '&length=' + length.toString());
-  // }, [prefix, length]);
+  useEffect(() => {
+    router.replace('/?prefix=' + prefix + '&length=' + length.toString());
+  }, [prefix, length]);
 
   return (
     <div className="p-6 bg-white shadow-lg rounded-lg">
